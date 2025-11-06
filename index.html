@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vandana's Portfolio</title>
+
+  <style>
+  body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial;
+  background: #ffffff; /* WHITE BACKGROUND */
+  color: #222222;      /* DARK TEXT */
+  line-height: 1.6;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #dddddd; /* Soft divider */
+  margin: 32px 0;
+}
+
+a { color: #3b5cff; text-decoration: none; } /* Slightly richer blue */
+
+
+  .wrap {
+    max-width: 850px;
+    margin: 60px auto;
+    padding: 0 20px;
+  }
+
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .header-text { flex: 1; }
+
+  .profile {
+    width: 160px;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-left: 24px;
+  }
+
+  p { text-align: justify; }
+
+  h1 { margin: 0 0 8px; font-size: 36px; font-weight: 600; }
+  h2 { margin-top: 48px; font-size: 24px; font-weight: 600; }
+  .sub { color: #000000; margin: 0 0 16px; }
+  a { color: #000000; text-decoration: none; }
+  hr { border: 0; border-top: 1px solid #1f2937; margin: 32px 0; }
+  
+  .about {
+  color: #000000;   /* or #000000 for pure black */
+  font-size: 16px;  /* optional: keeps it clean and readable */
+  line-height: 1.65; /* optional: improves readability */
+}
+
+
+  /* ---- WORK TILE STYLES ---- */
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin: 40px auto;
+  max-width: 850px;
+}
+
+
+.tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 16/11;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;         /* soft light border */
+  background: #f7f8fa center/cover no-repeat;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.tile:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+}
+
+.tile::after {
+  content:"";
+  position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.25));
+  transition: opacity .25s ease;
+}
+.tile:hover::after { opacity: .4; }
+
+.cta {
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  z-index:2;
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+.tile:hover .cta { opacity: 1; }
+
+.btn {
+  background: rgba(255,255,255,0.9);
+  color: #222;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing:.06em;
+  transition: background .2s ease, color .2s ease, border .2s ease;
+}
+.tile:hover .btn {
+  background:#ffffff;
+  border-color:#999;
+  color:#000;
+}
+
+.label {
+  position:absolute;
+  left:0; right:0;
+  bottom:0;
+  padding:10px 14px;
+  color:#222;                  /* << black text */
+  font-weight:600;
+  font-size:14px;
+  background:linear-gradient(180deg,transparent,rgba(255,255,255,0.75));
+  z-index:2;
+}
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.tag {
+  background: #f7f8fa;
+  border: 1px solid #e5e7eb;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #111827;
+  white-space: nowrap;
+}
+
+
+/* ---- EXPERIENCE SECTION ---- */
+.experience-card {
+    background: #f7f8fa; 
+  border: 1px solid #e5e7eb;
+  padding: 28px 30px;
+  border-radius: 14px;
+  margin: 40px auto;
+  max-width: 850px;
+  position: relative;
+}
+
+.exp-header {
+  display: flex;
+  align-items: flex-start;  /* <-- aligns the logo with the top */
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.exp-logo {
+  width: 85px;
+  height: 85px;
+  object-fit: contain;
+  opacity: 1;
+  margin-top: 4px;   /* adjust between 0–8px to visually tune */
+}
+
+.exp-role {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.exp-company {
+  font-size: 16px;
+  margin: 0;
+  color: #000000;
+}
+
+.exp-date {
+  font-size: 15px;
+  color:  #000000;
+  margin-top: 4px;
+}
+
+.exp-bullets {
+  margin-top: 16px;
+  padding-left: 18px;
+}
+
+.exp-bullets li {
+  margin-bottom: 10px;
+  line-height: 1.5;
+  color: #000000;
+}
+
+
+/* ---- EDUCATION SECTION ---- */
+/* ---- EDUCATION (light card + timeline) ---- */
+.education-card {
+  position: relative;
+  background: #f7f8fa;             /* same as experience card */
+  border: 1px solid #e5e7eb;        /* light border */
+  border-radius: 14px;
+  padding: 24px 28px;
+  margin-top: 24px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.04);
+}
+
+.edu-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* small logo; bump if you want it bigger (e.g., 40px) */
+.edu-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  opacity: .95;
+}
+
+.edu-degree {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.edu-school {
+  font-size: 15px;
+  margin: 4px 0 0;
+  color: #000000;                   /* same family as exp-company */
+}
+
+.edu-date-inline {
+  font-size: 15px;
+  color: #000000;       /* matches your theme */
+  margin-top: 4px;
+}
+
+
+
+/* ==== SKILLS (Tabbed + Pills) ==== */
+.skills-wrap { max-width: 850px; margin: 40px auto; }
+
+/* Hide radio buttons */
+.skills-wrap input[type="radio"] { display: none; }
+
+/* Tabs header (light card look) */
+.skill-tabs{
+  display:flex; gap:12px; align-items:center;
+  background:#f7f8fa; border:1px solid #e5e7eb; border-radius:10px;
+  box-shadow:0 1px 4px rgba(0,0,0,.03);
+  padding:8px; width:fit-content; margin:0 auto 16px;
+}
+
+/* Tab button (labels) — default BLACK text */
+.tab-btn{
+  padding:10px 18px; border-radius:8px; font-weight:600;
+  color:#111827; cursor:pointer; user-select:none;
+  transition: background .2s ease, box-shadow .2s ease;
+}
+.tab-btn:hover{ background:#ffffff; box-shadow:0 1px 4px rgba(0,0,0,.05); }
+
+/* Active tab = white box; keep text black */
+#tab-tech:checked  ~ .skill-tabs label[for="tab-tech"],
+#tab-tools:checked ~ .skill-tabs label[for="tab-tools"],
+#tab-core:checked  ~ .skill-tabs label[for="tab-core"]{
+  background:#ffffff; border:1px solid #e5e7eb;
+  box-shadow:0 1px 4px rgba(0,0,0,.05);
+  color:#111827;
+}
+
+/* Panels container (match Education card theme) */
+.skill-panels{
+  background:#f7f8fa; border:1px solid #e5e7eb; border-radius:14px;
+  box-shadow:0 2px 10px rgba(0,0,0,.04);
+  padding:24px 24px 18px;
+}
+
+/* Show/hide panels */
+.panel{ display:none; }
+#tab-tech:checked  ~ .skill-panels #panel-tech,
+#tab-core:checked  ~ .skill-panels #panel-core{ display:block; }
+
+/* Section headings inside panel */
+.panel h3{
+  text-align:center; margin:6px 0 18px; font-size:22px; font-weight:800;
+  color:#0f172a;
+}
+
+/* Pills */
+.pills{ display:flex; flex-wrap:wrap; gap:12px; }
+.pill{
+  background:#f7f8fa; color:#111827; border:1px solid #e5e7eb;
+  border-radius:999px; padding:10px 16px; font-weight:600; font-size:15px;
+  box-shadow:0 1px 4px rgba(0,0,0,.03);
+  transition: transform .15s, box-shadow .15s, background .15s, color .15s;
+}
+.pill:hover{
+  transform:translateY(-1px);
+  box-shadow:0 3px 10px rgba(0,0,0,.07);
+  background:#ffffff; color:#000000;
+}
+
+/* Optional secondary pill style */
+.pill.sub{ background:#ffffff; border-color:#e9eaee; }
+
+/* Ensure pills stay dark even if they contain links */
+.pill a{ color:inherit !important; text-decoration:none !important; }
+
+/* Small spacing between pill groups */
+.section-gap{ height:12px; }
+
+/* ---- CONTACT SECTION ---- */
+.contact-card {
+  background: #f7f8fa;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.04);
+  padding: 24px 28px;
+  max-width: 850px;
+  margin: 30px auto 60px;
+}
+
+.contact-card .contact-line {
+  font-size: 16px;
+  margin: 8px 0;
+  color: #000000;
+}
+
+.contact-card a {
+  color: #1e3a8a;          /* Deep readable blue */
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-card a:hover {
+  text-decoration: underline;
+}
+
+</style>
+
+
+</head>
+
+
+
+<body>
+<div class="wrap">
+
+  <!-- Header Section -->
+  <div class="header-top">
+    <div class="header-text">
+      <h1>Vandana Gangaiah</h1>
+      <p class="sub">Aspiring Product Manager | MSEM @ UMass Amherst</p>
+    </div>
+
+    <img src="image/vandana.jpg" alt="Vandana" class="profile">
+  </div>
+
+  <hr>
+
+  <!-- About Section -->
+  <h2>About Me</h2>
+
+  <p class="about">Hi, I’m Vandana - an engineer transitioning into Product Management, with experience in ADAS radar systems at Aumovio SE (Formerly Continental Autonomous Mobility), focused on building products that are intuitive, useful, and genuinely improve user experience.</p>
+
+  <p class="about">Over 3 years of work experience has taught me to look beyond individual features and understand how the entire product creates value. I enjoy working across teams, bringing clarity to decisions, and using data and insight to guide direction. I believe strong products are built when we stay close to users, ask the right questions, and make decisions that genuinely improve their experience and drive tangible business results.</p>
+
+  <p class="about">My goal is to create meaningful, user-centered solutions that people find natural to use - products that quietly make life easier. I approach problems with curiosity, structure, and a calm sense of ownership. With a learner’s mindset and adaptability at my core, I focus on clarity, practical decision-making, and moving the product forward in a way that actually matters to users.</p>
+
+<hr>
+<h2>My Work</h2>
+<div class="work-grid">
+
+  <!-- Udemy -->
+  <div class="project">
+    <a class="tile"
+       href="Projects/Udemy.pdf"
+       target="_blank"
+       style="background-image:url('image/Udemy.png');">
+      <div class="cta"><span class="btn">Read More</span></div>
+      <div class="label">Strategic Approach to Improving Learning for 50+ Learners</div>
+    </a>
+    <div class="project-tags">
+  <span class="tag">User Research</span>
+  <span class="tag">UX Improvement</span>
+  <span class="tag">Prototyping</span>
+  <span class="tag">Persona Development </span>
+  <span class="tag">Growth Strategy </span>
+  <span class="tag">Product Metrics</span>
+</div>
+
+
+  </div>
+
+  <!-- UberX -->
+  <div class="project">
+    <a class="tile"
+       href="Projects/Uber.pdf"
+       target="_blank"
+       style="background-image:url('image/Uber.png');">
+      <div class="cta"><span class="btn">Read More</span></div>
+      <div class="label">Strategic Redesign of the UberX Ride-Sharing Experience</div>
+    </a>
+    <div class="project-tags">
+      <span class="tag">User Research</span>
+      <span class="tag">Persona Development </span>
+      <span class="tag">Market Research </span>
+      <span class="tag">Product Metrics</span>
+    </div>
+  </div>
+
+  <!-- Mobile Wallet SQL -->
+  <div class="project">
+    <a class="tile"
+       href="Projects/MobileWalletSQL.pdf"
+       target="_blank"
+       style="background-image:url('image/SQL.jpg');">
+      <div class="cta"><span class="btn">Read More</span></div>
+      <div class="label">User Behavior & Revenue Growth Analysis</div>
+    </a>
+    <div class="project-tags">
+      <span class="tag">SQL</span>
+      <span class="tag">User Retention</span>
+      <span class="tag">Revenue Insights</span>
+    </div>
+  </div>
+
+  <!-- Sales & Customer Dashboard -->
+  <div class="project">
+    <a class="tile"
+       href="https://public.tableau.com/views/SalesAndCustomerDashboard_17443933785260/SalesDashboard?:language=en-GB&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link"
+       target="_blank"
+       style="background-image:url('image/Tableau.png');">
+      <div class="cta"><span class="btn">View Dashboard</span></div>
+      <div class="label">Sales & Customer Insights Dashboard</div>
+    </a>
+    <div class="project-tags">
+      <span class="tag">Tableau</span>
+      <span class="tag">KPI Tracking</span>
+      <span class="tag">Data Visualization</span>
+    </div>
+  </div>
+
+  <!-- Netflix Dashboard -->
+  <div class="project">
+    <a class="tile"
+       href="https://public.tableau.com/views/Netflix_17456022849760/Netflix?:language=en-GB&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link"
+       target="_blank"
+       style="background-image:url('image/Netflix.jpg');">
+      <div class="cta"><span class="btn">View Dashboard</span></div>
+      <div class="label">Viewer Engagement & Content Insights Dashboard</div>
+    </a>
+    <div class="project-tags">
+      <span class="tag">Tableau</span>
+      <span class="tag">Engagement Metrics</span>
+      <span class="tag">Data Visualization</span>
+      <span class="tag">Content Performance Analysis</span>
+    </div>
+  </div>
+
+  <!-- E-Commerce (Excel) -->
+  <div class="project">
+    <a class="tile"
+       href="https://medium.com/@vandanagangaiah/e-commerce-sales-analysis-excel-based-9de46258ab52"
+       target="_blank"
+       style="background-image:url('image/Excel.jpg');">
+      <div class="cta"><span class="btn">Read More</span></div>
+      <div class="label">E-Commerce Sales Analysis</div>
+    </a>
+    <div class="project-tags">
+      <span class="tag">Excel</span>
+      <span class="tag">Pivot Table</span>
+      <span class="tag">Data Cleaning</span>
+      <span class="tag">Excel Dashboards</span>
+    </div>
+  </div>
+
+</div>
+
+
+<hr>
+<h2>Experience</h2>
+
+<div class="experience-card">
+
+  <div class="exp-header">
+  <div>
+    <p class="exp-role">Algorithm Test Engineer</p>
+    <p class="exp-company">Aumovio SE (Formerly Continental Autonomous Mobility)</p>
+    <p class="exp-date">Sep 2022 – Jun 2025</p>
+  </div>
+  </div>
+
+
+  <ul class="exp-bullets">
+    <li>Validated ADAS road-environment perception features across public-road and proving-ground datasets, comparing radar outputs with ground-truth to confirm real-world reliability and requirement compliance, improving release confidence.</li>
+    <li>Collaborated with Product Owners, Developers, and System Engineers to clarify feature behavior, align priorities, and resolve defects efficiently.</li>
+    <li>Built automated validation workflows and KPI dashboards that reduced manual test effort by ~30% and improved visibility of system performance.</li>
+    <li>Partnered with cross-functional teams to analyze false positives/negatives, identify root causes, and support feature improvement decisions.</li>
+  </ul>
+
+</div>
+
+<hr>
+<h2>Education</h2>
+
+<div class="education-card">
+
+  <div class="edu-header">
+        <div>
+      <p class="edu-degree">M.S. in Engineering Management</p>
+      <p class="edu-school">University of Massachusetts Amherst</p>
+      <p class="edu-date-inline">Aug 2024 – May 2027 (Expected) • GPA: TBD/4.0</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="education-card">
+
+  <div class="edu-header">
+        <div>
+      <p class="edu-degree">B.E. in Electronics & Communication Engineering</p>
+      <p class="edu-school">Sapthagiri College of Engineering</p>
+      <p class="edu-date-inline">Aug 2018 – Jul 2022 • GPA: 3.67/4.0</p>
+    </div>
+  </div>
+
+</div>
+
+<hr>
+<h2>Skills</h2>
+
+<div class="skills-wrap">
+  <!-- hidden radios drive the CSS-only tabs -->
+  <input type="radio" name="skilltab" id="tab-tech" checked hidden>
+<input type="radio" name="skilltab" id="tab-core" hidden>
+
+
+  <!-- tabs header -->
+  <div class="skill-tabs">
+
+    <label class="tab-btn" for="tab-tech">Technical Skills</label>
+    <label class="tab-btn" for="tab-core">Core Skills</label>
+  </div>
+
+  <!-- panels -->
+  <div class="skill-panels">
+
+    <!-- Technical -->
+    <div class="panel" id="panel-tech">
+  <h3>Technical Skills</h3>
+  <div class="pills">
+    <span class="pill">Python</span>
+    <span class="pill">SQL</span>
+    <span class="pill">MS Excel</span>
+    <span class="pill">Git</span>
+  </div>
+
+  <div class="section-gap"></div>
+  <h3>Data Visualization & Analysis</h3>
+  <div class="pills">
+    <span class="pill">Tableau</span>
+  </div>
+
+  <div class="section-gap"></div>
+  <h3>Product & Collaboration Tools</h3>
+  <div class="pills">
+    <span class="pill">JIRA</span>
+    <span class="pill">Confluence</span>
+    <span class="pill">Notion</span>
+    <span class="pill">Whimsical</span>
+    <span class="pill">MS Office Suite</span>
+    <span class="pill">Slack</span>
+    <span class="pill">Canva</span>
+  </div>
+</div>
+
+
+    <div class="panel" id="panel-core">
+  <h3>Core Product Skills</h3>
+  <div class="pills">
+    <span class="pill">Requirement Gathering & Analysis</span>
+    <span class="pill">Stakeholder Management</span>
+    <span class="pill">Cross-Functional Collaboration</span>
+    <span class="pill">Root Cause Analysis (RCA)</span>
+	<span class="pill">Market Research</span>
+    <span class="pill">Agile Project Management</span>
+    <span class="pill">Scrum</span>
+    <span class="pill">Data Analysis</span>
+    <span class="pill">Data Visualization</span>
+  </div>
+</div>
+
+</div>
+<hr>
+<h2>Contact</h2>
+
+<div class="contact-card">
+  <p class="contact-line">
+    📍 Amherst, Massachusetts
+  </p>
+  <p class="contact-line">
+    ✉️ <a href="mailto:vandanagowda333@gmail.com">vandanagowda333@gmail.com</a>
+  </p>
+  <p class="contact-line">
+    🔗 <a href="https://www.linkedin.com/in/vandana-gangaiah-2262a91ba/" target="_blank">linkedin.com/in/vandana-gangaiah</a>
+  </p>
+  </div>
+
+
+
+</div>
+
+</body>
+</html>
+
